@@ -47,6 +47,8 @@ Cada  expressão  lógica  avaliada  pode  ter  qualquer  combinação  das  ope
 conjunção, disjunção, implicação e bi-implicação sem limites na combiação de preposições e operações.
 Os valores lógicos True e False estão representados na gramática e, como tal, podem ser usados em
 qualquer expressão de entrada.
+
+
 Para  validar  seu  trabalho,  você  deve  incluir  no  repl.it,  no  mínimo  três  arquivos  contendo
 números  diferentes  de  expressões  proposicionais.  O  professor  irá  incluir  um  arquivo  de  testes  extra
 para validar seu trabalho. Para isso, caberá ao professor incluir o arquivo no seu repl.it e rodar o seu
