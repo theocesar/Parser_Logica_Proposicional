@@ -14,14 +14,32 @@ para cada expressão lógica de entrada contendo ou a palavra valida ou a palavr
 
 
 Gramática:
+
+
 Formula=Constante|Proposicao|FormulaUnaria|FormulaBinaria.
+
+
 Constante="T"|"F".
+
+
 Proposicao=[a−z0−9]+
+
+
 FormulaUnaria=AbreParen OperadorUnario Formula FechaParen
+
+
 FormulaBinaria=AbreParen OperatorBinario Formula Formula FechaParen
+
+
 AbreParen="("
+
+
 FechaParen=")"
+
+
 OperatorUnario="¬"
+
+
 OperatorBinario="∨"|"∧"|"→"|"↔"
 
 
