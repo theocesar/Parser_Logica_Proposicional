@@ -1,0 +1,15 @@
+9
+(\lnot(\lnot(\lnot kl0))(\lnot lo6))
+(\lnot a12)
+(a12)
+\lnot i8
+(\lnot(\lnot jko6))
+(\lnot \lnot poi8)
+(\lnot T)lk
+(\lnot (\vee (\lnot kl65) (\wedge (\lnot a9) ty65)))
+(\lnot(\lnot(\lnot k10)))
+
+
+
+
+
