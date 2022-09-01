@@ -1,0 +1,10 @@
+5
+(\lnot aa36)
+(\lnot (\lnot le8)
+(\lnot T)
+(\lnot p9)
+(\lnot (\wedge y6 u7)
+
+
+
+
