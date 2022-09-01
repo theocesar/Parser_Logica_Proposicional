@@ -1,0 +1,14 @@
+12
+T
+TF
+(\rightarrow (T) F)
+(\wedge (\rightarrow (\lnot a) (\lnot (\wedge a y))) (\vee a b))
+(\vee a b) \wedge
+(\lnot az)
+(\leftrightarrow (\lnot a b) b)
+(\wedge (\rightarrow (\lnot a) (\lnot (\wedge a y))) (\vee a b))
+(\wedge (\rightarrow (\lnot a) (\lnot (\wedge a y)) (\vee a b))
+(\wedge a b)
+(\wedge)
+(\lnot (\vee a b))
+
