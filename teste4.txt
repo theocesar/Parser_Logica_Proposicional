@@ -1,0 +1,7 @@
+Negação = \lnot
+OU lógico = \vee
+E lógico = \wedge
+Implicação = \rightarrow
+Bi-Implicação = \leftrightarrow
+Abre-Parenteses = (
+Fecha-Parenteses = )
