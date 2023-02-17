@@ -1,18 +1,14 @@
 '''
 // Théo César Zanotto da Silva
 
-ENUNCIADO
-
-Para  obter  os  pontos  relativos  a  este  trabalho,  você  deverá  fazer  um  programa,  usando  a
-linguagem de programação que desejar, que seja capaz de validar expressões de lógica propisicional
+Criar um algoritmo que seja capaz de validar expressões de lógica propisicional
 escritas em latex e definir se são expressões gramaticalmente corretas. Você validará apenas a forma
 da expressão (sintaxe).
-A entrada será fornecida por um arquivo de textos que será carregado em linha de comando,
-com a seguinte formatação:
+A entrada será fornecida por um arquivo de textos, com a seguinte formatação:
 1. Na primeira linha deste arquivo existe um número inteiro que informa quantas expressões
 lógicas estão no arquivo.
 2. Cada uma das linhas seguintes contém uma expressão lógica que deve ser validada.
-A saída do seu programa será no terminal padrão do sistema e constituirá de uma linha de saída
+A saída do seu programa será no terminal e constituirá de uma linha de saída
 para cada expressão lógica de entrada contendo ou a palavra valida ou a palavra inválida e nada mais.
 
 
@@ -32,10 +28,6 @@ Cada  expressão  lógica  avaliada  pode  ter  qualquer  combinação  das  ope
 conjunção, disjunção, implicação e bi-implicação sem limites na combiação de preposições e operações.
 Os valores lógicos True e False estão representados na gramática e, como tal, podem ser usados em
 qualquer expressão de entrada.
-Para  validar  seu  trabalho,  você  deve  incluir  no  repl.it,  no  mínimo  três  arquivos  contendo
-números  diferentes  de  expressões  proposicionais.  O  professor  irá  incluir  um  arquivo  de  testes  extra
-para validar seu trabalho. Para isso, caberá ao professor incluir o arquivo no seu repl.it e rodar o seu
-programa carregando o arquivo de testes.
 '''
 
 from pylatexenc.latex2text import LatexNodes2Text
@@ -53,17 +45,18 @@ print('''Qual arquivo deverá ser analisado?
     certifique-se de utilizar os comandos definidos !
  ''')
 opcao = str(input('Nome do arquivo escolhido: '))
+# To initialize the program, a txt file name must be chosen and typed in the command line.
 
-# abre o arquivo txt.
+# open the txt file.
 arquivo = open(opcao + ".txt", 'r')
 linha = int(arquivo.readline())
 
 
 def barran(frase):
-    # função para retirar o \n do final da última linha.
-    # é necessária sua utilização, pois em alguns casos, o programa lê
-    # o \n ao final das expressões, impossiblitando o processamento
-    # correto da análise gramatical.
+    # function to remove the \n character from the end of the line.
+    # its use is necessary, because in some cases, the program reads
+    # the \n at the end of the expressions, making it impossible to correctly process
+    # the grammatical analysis.
     if frase.count('\n') != 0:
         frase = re.sub(r'\n', '', frase)
     else:
@@ -71,7 +64,8 @@ def barran(frase):
 
     return frase
 
-# todos os símbolos importantes para o processamento.
+
+# grammatical symbols
 operador_unario = '¬'
 operadores_binarios = ('∧', '↔', '∨', '→')
 abre_paren = '('
@@ -80,7 +74,7 @@ const = ('T', 'F')
 
 
 def proposicao(char):
-    # função para caracterizar e delimitar as proposições de acordo com a gramática.
+    # function to characterize and delimit propositions according to the grammar.
     lista = list(map(chr, range(97, 123)))
     lista_num = list(map(chr, range(48, 58)))
 
@@ -93,7 +87,7 @@ def proposicao(char):
 
 
 def formula_unaria(char):
-    # função para determinar se o operador que está na iteração atual é unario.
+    # function to determine whether the operator in the current iteration is unary.
     if char == operador_unario:
         if char in s1[-2]:
             return False
@@ -102,7 +96,7 @@ def formula_unaria(char):
 
 
 def formula_binaria(char):
-    # função para determinar se o operador que está na iteração atual é binario.
+    # function to determine whether the operator in the current iteration is binary.
     if char in operadores_binarios:
         if char in s1[-2]:
             return False
@@ -111,13 +105,16 @@ def formula_binaria(char):
 
 
 def iteracao(s1, state):
-    # função primordial, na qual a expressão é processada.
+    # main function, responsible for iterating over the expressions.
+    # its logic is based on the concept of Finite State Machines.
     contp = 0
     cont = None
     for i, char in enumerate(s1):
         if frase == "\n":
             exit()
             return True
+
+        # first state
         if state == "CheckBrackets":
 
             if char == abre_paren:
@@ -132,6 +129,7 @@ def iteracao(s1, state):
             else:
                 return False
 
+        # second state
         if state == "CheckOperator":
 
             if formula_unaria(char):
@@ -145,6 +143,7 @@ def iteracao(s1, state):
             else:
                 return False
 
+        # third state
         if state == "Unario":
 
             if char == abre_paren:
@@ -168,6 +167,7 @@ def iteracao(s1, state):
             else:
                 return False
 
+        # forth state
         if state == "Binario":
 
             if char == abre_paren:
@@ -188,6 +188,7 @@ def iteracao(s1, state):
                 state = "Binario"
                 continue
 
+        # fifth state
         if state == "P1":
 
             if char != fecha_paren:
@@ -206,6 +207,7 @@ def iteracao(s1, state):
             else:
                 state = "CheckClosing"
 
+        # sixth state
         if state == "P2":
 
             if char != fecha_paren:
@@ -221,6 +223,7 @@ def iteracao(s1, state):
             else:
                 state = "CheckClosing"
 
+        # seventh state
         if state == "CheckClosing":
 
             if char == abre_paren:
@@ -245,21 +248,29 @@ def iteracao(s1, state):
                 return False
 
 
-
-
 while linha > 0:
-    # inicializa o processamento das expressões e faz a conexão com a função principal.
-    # recebe o valor final da função principal e passa para o terminal se a expressão
-    # é válida ou não
+    # initializes the processing of the expresions
+    # calling the main function.
+
+    # initial state
     state = "CheckBrackets"
+
     contp = 0
     frase = arquivo.readline()
+
+    # using a python library to handle LaTeX.
     s = LatexNodes2Text().latex_to_text(barran(frase))
+    # using regex
     s1 = re.findall(r'\S', s)
+
+    # necessary checks.
     t = s1.count(operador_unario)
     t1 = s1.count(abre_paren)
     t2 = s1.count(fecha_paren)
     t3 = s1.count(operadores_binarios)
+
+    # takes the final value of the main function and passes to the terminal whether the expression
+    # is valid or not.
     if contp == 0 and iteracao(s1, state):
         if t > 3:
             if t1 and t2 == t and t3 == 0:
