@@ -15,16 +15,11 @@ print('''Qual arquivo deverá ser analisado?
  ''')
 opcao = str(input('Nome do arquivo escolhido: '))
 
-def barra_n(frase):
-  # function to remove the \n character from the end of the line.
-  # its use is necessary, because in some cases, the program reads
-  # the \n at the end of the expressions, making it impossible to correctly process
-  # the expressions.
+def remove_slash_n(frase):
   if frase.count('\n') != 0:
     return re.sub(r'\n', '', frase)
 
 def operators():
-  # function to return the grammatical operators
   operador_unario = '¬'
   operadores_binarios = ('∧', '↔', '∨', '→')
   abre_paren = '('
@@ -34,7 +29,7 @@ def operators():
   return operador_unario, operadores_binarios, abre_paren, fecha_paren, const
 
 
-def proposicao(char):
+def proposition(char):
   # function to characterize and delimit propositions according to the grammar.
   lista = list(map(chr, range(97, 123)))
   lista_num = list(map(chr, range(48, 58)))
@@ -42,19 +37,19 @@ def proposicao(char):
   return char in lista or char in lista_num
 
 
-def formula_unaria(char):
+def unary_formula(char):
   # function to determine whether the operator in the current iteration is unary.
   operador_unario, _, _, _, _ = operators()
   return char == operador_unario and char not in s1[-2]
 
 
-def formula_binaria(char):
+def binary_formula(char):
   # function to determine whether the operator in the current iteration is binary.
   _, operadores_binarios, _, _, _ = operators()
   return char in operadores_binarios and char not in s1[-2]
 
 
-def iteracao(s1, state):
+def main_iteration(s1, state):
   # main function, responsible for iterating over the expressions.
   # its logic is based on the concept of Finite State Machines.
   operador_unario, operadores_binarios, abre_paren, fecha_paren, const = operators()
@@ -79,11 +74,11 @@ def iteracao(s1, state):
       # second state
       if state == "CheckOperator":
 
-          if formula_unaria(char):
+          if unary_formula(char):
               state = "Unario"
               cont = True
               continue
-          elif formula_binaria(char):
+          elif binary_formula(char):
               state = "Binario"
               cont = False
               continue
@@ -98,7 +93,7 @@ def iteracao(s1, state):
               contp += 1
               continue
 
-          if proposicao(char):
+          if proposition(char):
               state = "P1"
               continue
 
@@ -122,7 +117,7 @@ def iteracao(s1, state):
               contp += 1
               continue
 
-          if proposicao(char):
+          if proposition(char):
               state = "P1"
               continue
 
@@ -188,7 +183,7 @@ def iteracao(s1, state):
               else:
                   continue
 
-          elif proposicao(char):
+          elif proposition(char):
               state = "P1"
 
           else:
@@ -196,7 +191,7 @@ def iteracao(s1, state):
 
 
 def final_validation():
-  if contp == 0 and iteracao(s1, state):
+  if contp == 0 and main_iteration(s1, state):
     if t > 3 and t1 and t2 == t and t3 == 0:
         print("Inválida")
     else:
@@ -205,13 +200,10 @@ def final_validation():
     print("Inválida")
 
 
-# open the txt file.
 with open(opcao + ".txt", 'r') as arquivo:
   linha = int(arquivo.readline())
 
   while linha > 0:
-      # initializes the processing of the expresions
-      # calling the main function.
   
       # initial state
       state = "CheckBrackets"
@@ -220,7 +212,7 @@ with open(opcao + ".txt", 'r') as arquivo:
       frase = arquivo.readline()
   
       # using a python library to handle LaTeX.
-      s = LatexNodes2Text().latex_to_text(barra_n(frase))
+      s = LatexNodes2Text().latex_to_text(remove_slash_n(frase))
       s1 = re.findall(r'\S', s)
       operador_unario, operadores_binarios, abre_paren, fecha_paren, const = operators()
   
@@ -230,7 +222,6 @@ with open(opcao + ".txt", 'r') as arquivo:
       t2 = s1.count(fecha_paren)
       t3 = s1.count(operadores_binarios)
   
-      # final validation to determine if the expression is valid.
       final_validation()
   
       linha -= 1
